@@ -10,4 +10,6 @@ public record SubscriptionRequest(
         @NotNull SubscriptionPlan plan,
         @NotNull BillingCycle billingCycle
 ) {
+
+
 }
