@@ -73,14 +73,16 @@ class SubscriptionControllerTests {
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content("""
                                                 {
-                                                  "userCount": 0,
-                                                  "plan": "PRO",
-                                                  "billingCycle": "MONTHLY"
+                                                        "userCount": 0,
+                                                        "plan": "PRO",
+                                                        "billingCycle": "MONTHLY"
                                                 }
                                                 """))
                                 .andExpect(status().isBadRequest());
+
                 verifyNoInteractions(subscriptionPricingService);
         }
+
         @Test
         void shouldReturnBadRequestWhenPlanIsMissing() throws Exception {
                 mockMvc.perform(post("/api/subscriptions/calculate")
@@ -89,6 +91,20 @@ class SubscriptionControllerTests {
                                                 {
                                                   "userCount": 5,
                                                   "billingCycle": "MONTHLY"
+                                                }
+                                                """))
+                                .andExpect(status().isBadRequest());
+                verifyNoInteractions(subscriptionPricingService);
+        }
+
+        @Test
+        void shouldReturnBadRequestWhenBillingCycleIsMissing() throws Exception {
+                mockMvc.perform(post("/api/subscriptions/calculate")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content("""
+                                                {
+                                                  "userCount": 5,
+                                                  "plan": "PRO"
                                                 }
                                                 """))
                                 .andExpect(status().isBadRequest());
