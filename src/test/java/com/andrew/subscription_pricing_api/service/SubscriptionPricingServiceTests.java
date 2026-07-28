@@ -14,75 +14,78 @@ import com.andrew.subscription_pricing_api.model.SubscriptionPlan;
 
 class SubscriptionPricingServiceTests {
 
-    private final SubscriptionPricingService service = new SubscriptionPricingService();
+        private final SubscriptionPricingService service = new SubscriptionPricingService();
 
-    @Test
-    void shouldCalculateProMonthlySubscription() {
+        @Test
+        void shouldCalculateProMonthlySubscription() {
 
-        SubscriptionRequest request = new SubscriptionRequest(
-                5,
-                SubscriptionPlan.PRO,
-                BillingCycle.MONTHLY);
+                SubscriptionRequest request = new SubscriptionRequest(
+                                5,
+                                SubscriptionPlan.PRO,
+                                BillingCycle.MONTHLY);
 
-        SubscriptionResponse response = service.calculate(request);
+                SubscriptionResponse response = service.calculate(request);
 
-        assertAll(
-                () -> assertEquals(SubscriptionPlan.PRO, response.plan()),
-                () -> assertEquals(5, response.userCount()),
-                () -> assertEquals(BillingCycle.MONTHLY, response.billingCycle()),
-                () -> assertEquals(BigDecimal.valueOf(100), response.monthlyCost()),
-                () -> assertEquals(BigDecimal.valueOf(1200), response.annualCost()));
+                assertAll(
+                                () -> assertEquals(SubscriptionPlan.PRO, response.plan()),
+                                () -> assertEquals(5, response.userCount()),
+                                () -> assertEquals(BillingCycle.MONTHLY, response.billingCycle()),
+                                () -> assertEquals(BigDecimal.valueOf(100), response.monthlyCost()),
+                                () -> assertEquals(BigDecimal.valueOf(1200), response.annualCost()));
 
-    }
-    @Test
-    void shouldCalculateBasicMonthlySubscription() {
+        }
 
-        SubscriptionRequest request = new SubscriptionRequest(
-                3,
-                SubscriptionPlan.BASIC,
-                BillingCycle.MONTHLY);
+        @Test
+        void shouldCalculateBasicMonthlySubscription() {
 
-        SubscriptionResponse response = service.calculate(request);
+                SubscriptionRequest request = new SubscriptionRequest(
+                                3,
+                                SubscriptionPlan.BASIC,
+                                BillingCycle.MONTHLY);
 
-        assertAll(
-                () -> assertEquals(SubscriptionPlan.BASIC, response.plan()),
-                () -> assertEquals(3, response.userCount()),
-                () -> assertEquals(BillingCycle.MONTHLY, response.billingCycle()),
-                () -> assertEquals(BigDecimal.valueOf(30), response.monthlyCost()),
-                () -> assertEquals(BigDecimal.valueOf(360), response.annualCost()));
+                SubscriptionResponse response = service.calculate(request);
 
-    }
-    @Test
-    void shouldCalculateEnterpriseAnnualSubscription() {
+                assertAll(
+                                () -> assertEquals(SubscriptionPlan.BASIC, response.plan()),
+                                () -> assertEquals(3, response.userCount()),
+                                () -> assertEquals(BillingCycle.MONTHLY, response.billingCycle()),
+                                () -> assertEquals(BigDecimal.valueOf(30), response.monthlyCost()),
+                                () -> assertEquals(BigDecimal.valueOf(360), response.annualCost()));
 
-        SubscriptionRequest request = new SubscriptionRequest(
-                10,
-                SubscriptionPlan.ENTERPRISE,
-                BillingCycle.ANNUAL);
+        }
 
-        SubscriptionResponse response = service.calculate(request);
+        @Test
+        void shouldCalculateEnterpriseAnnualSubscription() {
 
-        assertAll(
-                () -> assertEquals(SubscriptionPlan.ENTERPRISE, response.plan()),
-                () -> assertEquals(10, response.userCount()),
-                () -> assertEquals(BillingCycle.ANNUAL, response.billingCycle()),
-                () -> assertEquals(BigDecimal.valueOf(400), response.monthlyCost()),
-                () -> assertEquals(BigDecimal.valueOf(4800), response.annualCost()));
+                SubscriptionRequest request = new SubscriptionRequest(
+                                10,
+                                SubscriptionPlan.ENTERPRISE,
+                                BillingCycle.ANNUAL);
 
-    }
-    @Test
-    void shouldCalculateBasicAnnualSubscription(){
+                SubscriptionResponse response = service.calculate(request);
 
-        SubscriptionRequest request = new SubscriptionRequest(1, SubscriptionPlan.BASIC, BillingCycle.ANNUAL);
+                assertAll(
+                                () -> assertEquals(SubscriptionPlan.ENTERPRISE, response.plan()),
+                                () -> assertEquals(10, response.userCount()),
+                                () -> assertEquals(BillingCycle.ANNUAL, response.billingCycle()),
+                                () -> assertEquals(BigDecimal.valueOf(400), response.monthlyCost()),
+                                () -> assertEquals(BigDecimal.valueOf(4800), response.annualCost()));
 
-        SubscriptionResponse response = service.calculate(request);
+        }
 
-        assertAll(
-                () -> assertEquals(SubscriptionPlan.BASIC, response.plan()),
-                () -> assertEquals(1, response.userCount()),
-                () -> assertEquals(BillingCycle.ANNUAL, response.billingCycle()),
-                () -> assertEquals(BigDecimal.valueOf(10), response.monthlyCost()),
-                () -> assertEquals(BigDecimal.valueOf(120), response.annualCost()));
-    }
-    
+        @Test
+        void shouldCalculateBasicAnnualSubscription() {
+
+                SubscriptionRequest request = new SubscriptionRequest(1, SubscriptionPlan.BASIC, BillingCycle.ANNUAL);
+
+                SubscriptionResponse response = service.calculate(request);
+
+                assertAll(
+                                () -> assertEquals(SubscriptionPlan.BASIC, response.plan()),
+                                () -> assertEquals(1, response.userCount()),
+                                () -> assertEquals(BillingCycle.ANNUAL, response.billingCycle()),
+                                () -> assertEquals(BigDecimal.valueOf(10), response.monthlyCost()),
+                                () -> assertEquals(BigDecimal.valueOf(120), response.annualCost()));
+        }
+
 }
