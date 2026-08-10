@@ -78,7 +78,11 @@ class SubscriptionControllerTests {
                                                         "billingCycle": "MONTHLY"
                                                 }
                                                 """))
-                                .andExpect(status().isBadRequest());
+                                .andExpect(status().isBadRequest())
+                                .andExpect(jsonPath("$.message").value("Validation failed"))
+                                .andExpect(jsonPath("$.status").value(400))
+                                .andExpect(jsonPath("$.field").value("userCount"))
+                                .andExpect(jsonPath("$.error").value("must be greater than or equal to 1"));
 
                 verifyNoInteractions(subscriptionPricingService);
         }
