@@ -100,7 +100,8 @@ class SubscriptionControllerTests {
                                 .content("""
                                                 {
                                                   "userCount": 5,
-                                                  "billingCycle": "MONTHLY"
+                                                  "billingCycle": "MONTHLY",
+                                                        "currency": "GBP"
                                                 }
                                                 """))
                                 .andExpect(status().isBadRequest());
@@ -114,7 +115,24 @@ class SubscriptionControllerTests {
                                 .content("""
                                                 {
                                                   "userCount": 5,
-                                                  "plan": "PRO"
+                                                  "plan": "PRO",
+                                                        "currency": "GBP"
+                                                }
+                                                """))
+                                .andExpect(status().isBadRequest());
+                verifyNoInteractions(subscriptionPricingService);
+        }
+
+        @Test
+        void shouldReturnBadRequestWhenCurrencyIsIncorrect() throws Exception {
+                mockMvc.perform(post("/api/subscriptions/calculate")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content("""
+                                                {
+                                                  "userCount": 5,
+                                                  "plan": "PRO",
+                                                  "billingCycle": "MONTHLY",
+                                                        "currency": "USD"
                                                 }
                                                 """))
                                 .andExpect(status().isBadRequest());
