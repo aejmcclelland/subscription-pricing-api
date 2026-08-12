@@ -89,7 +89,9 @@ class SubscriptionPricingServiceTests {
                                 () -> assertEquals(1, response.userCount()),
                                 () -> assertEquals(BillingCycle.ANNUAL, response.billingCycle()),
                                 () -> assertEquals(BigDecimal.valueOf(10), response.monthlyCost()),
-                                () -> assertEquals(BigDecimal.valueOf(120), response.annualCost()));
+                                () -> assertEquals(BigDecimal.valueOf(120), response.annualCost()),
+                                () -> assertEquals(SupportedCurrency.GBP, response.currency()));
         }
+       
 
 }

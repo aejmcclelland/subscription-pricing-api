@@ -138,4 +138,5 @@ class SubscriptionControllerTests {
                                 .andExpect(status().isBadRequest());
                 verifyNoInteractions(subscriptionPricingService);
         }
+        
 }
