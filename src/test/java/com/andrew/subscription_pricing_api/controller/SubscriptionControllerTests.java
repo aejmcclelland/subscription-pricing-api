@@ -21,6 +21,7 @@ import com.andrew.subscription_pricing_api.dto.SubscriptionRequest;
 import com.andrew.subscription_pricing_api.dto.SubscriptionResponse;
 import com.andrew.subscription_pricing_api.model.BillingCycle;
 import com.andrew.subscription_pricing_api.model.SubscriptionPlan;
+import com.andrew.subscription_pricing_api.model.SupportedCurrency;
 import com.andrew.subscription_pricing_api.service.SubscriptionPricingService;
 
 @WebMvcTest(SubscriptionController.class)
@@ -37,13 +38,15 @@ class SubscriptionControllerTests {
                 SubscriptionRequest request = new SubscriptionRequest(
                                 5,
                                 SubscriptionPlan.PRO,
-                                BillingCycle.MONTHLY);
+                                BillingCycle.MONTHLY,
+                                SupportedCurrency.GBP);
                 SubscriptionResponse response = new SubscriptionResponse(
                                 SubscriptionPlan.PRO,
                                 5,
                                 BillingCycle.MONTHLY,
                                 BigDecimal.valueOf(100),
-                                BigDecimal.valueOf(1200));
+                                BigDecimal.valueOf(1200),
+                                SupportedCurrency.GBP);
 
                 when(subscriptionPricingService.calculate(request)).thenReturn(response);
 
@@ -53,7 +56,8 @@ class SubscriptionControllerTests {
                                                 {
                                                   "userCount": 5,
                                                   "plan": "PRO",
-                                                  "billingCycle": "MONTHLY"
+                                                  "billingCycle": "MONTHLY",
+                                                  "currency": "GBP"
                                                 }
                                                 """))
                                 .andExpect(status().isOk())
@@ -62,7 +66,8 @@ class SubscriptionControllerTests {
                                 .andExpect(jsonPath("$.userCount").value(5))
                                 .andExpect(jsonPath("$.billingCycle").value("MONTHLY"))
                                 .andExpect(jsonPath("$.monthlyCost").value(100))
-                                .andExpect(jsonPath("$.annualCost").value(1200));
+                                .andExpect(jsonPath("$.annualCost").value(1200))
+                                .andExpect(jsonPath("$.currency").value("GBP"));
 
                 verify(subscriptionPricingService).calculate(request);
         }
@@ -75,7 +80,8 @@ class SubscriptionControllerTests {
                                                 {
                                                         "userCount": 0,
                                                         "plan": "PRO",
-                                                        "billingCycle": "MONTHLY"
+                                                        "billingCycle": "MONTHLY",
+                                                        "currency": "GBP"
                                                 }
                                                 """))
                                 .andExpect(status().isBadRequest())

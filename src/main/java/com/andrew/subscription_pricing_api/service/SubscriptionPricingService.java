@@ -1,10 +1,12 @@
 package com.andrew.subscription_pricing_api.service;
 
-import com.andrew.subscription_pricing_api.dto.SubscriptionRequest;
-import com.andrew.subscription_pricing_api.dto.SubscriptionResponse;
+import java.math.BigDecimal;
+
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
+import com.andrew.subscription_pricing_api.dto.SubscriptionRequest;
+import com.andrew.subscription_pricing_api.dto.SubscriptionResponse;
+import com.andrew.subscription_pricing_api.model.SupportedCurrency;
 
 @Service
 public class SubscriptionPricingService {
@@ -17,8 +19,7 @@ public class SubscriptionPricingService {
         };
 
         BigDecimal monthlyCost = monthlyPricePerUser.multiply(
-                BigDecimal.valueOf(request.userCount())
-        );
+                BigDecimal.valueOf(request.userCount()));
         BigDecimal annualCost = monthlyCost.multiply(BigDecimal.valueOf(12));
 
         return new SubscriptionResponse(
@@ -26,7 +27,7 @@ public class SubscriptionPricingService {
                 request.userCount(),
                 request.billingCycle(),
                 monthlyCost,
-                annualCost
-        );
+                annualCost,
+                SupportedCurrency.GBP);
     }
 }

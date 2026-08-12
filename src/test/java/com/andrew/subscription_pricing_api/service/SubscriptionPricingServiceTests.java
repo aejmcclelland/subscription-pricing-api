@@ -11,6 +11,7 @@ import com.andrew.subscription_pricing_api.dto.SubscriptionRequest;
 import com.andrew.subscription_pricing_api.dto.SubscriptionResponse;
 import com.andrew.subscription_pricing_api.model.BillingCycle;
 import com.andrew.subscription_pricing_api.model.SubscriptionPlan;
+import com.andrew.subscription_pricing_api.model.SupportedCurrency;
 
 class SubscriptionPricingServiceTests {
 
@@ -22,7 +23,8 @@ class SubscriptionPricingServiceTests {
                 SubscriptionRequest request = new SubscriptionRequest(
                                 5,
                                 SubscriptionPlan.PRO,
-                                BillingCycle.MONTHLY);
+                                BillingCycle.MONTHLY,
+                                SupportedCurrency.GBP);
 
                 SubscriptionResponse response = service.calculate(request);
 
@@ -41,7 +43,8 @@ class SubscriptionPricingServiceTests {
                 SubscriptionRequest request = new SubscriptionRequest(
                                 3,
                                 SubscriptionPlan.BASIC,
-                                BillingCycle.MONTHLY);
+                                BillingCycle.MONTHLY,
+                                SupportedCurrency.GBP);
 
                 SubscriptionResponse response = service.calculate(request);
 
@@ -60,7 +63,8 @@ class SubscriptionPricingServiceTests {
                 SubscriptionRequest request = new SubscriptionRequest(
                                 10,
                                 SubscriptionPlan.ENTERPRISE,
-                                BillingCycle.ANNUAL);
+                                BillingCycle.ANNUAL,
+                                SupportedCurrency.GBP);
 
                 SubscriptionResponse response = service.calculate(request);
 
@@ -76,7 +80,7 @@ class SubscriptionPricingServiceTests {
         @Test
         void shouldCalculateBasicAnnualSubscription() {
 
-                SubscriptionRequest request = new SubscriptionRequest(1, SubscriptionPlan.BASIC, BillingCycle.ANNUAL);
+                SubscriptionRequest request = new SubscriptionRequest(1, SubscriptionPlan.BASIC, BillingCycle.ANNUAL, SupportedCurrency.GBP);
 
                 SubscriptionResponse response = service.calculate(request);
 
