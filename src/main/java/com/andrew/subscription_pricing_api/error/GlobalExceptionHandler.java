@@ -1,6 +1,7 @@
 package com.andrew.subscription_pricing_api.error;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -29,4 +30,22 @@ public class GlobalExceptionHandler {
                 errorMessage);
     }
 
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ApiErrorResponse handleHttpMessageNotReadableException(HttpMessageNotReadableException ex) {
+        String errorMessage = ex.getMostSpecificCause().getMessage();
+        String field = null;
+
+        if (errorMessage.contains("SupportedCurrency")) {
+            field = "currency";
+            errorMessage = "Invalid currency value. Supported currency is GBP.";
+        }
+
+        return new ApiErrorResponse(
+                "Invalid request body",
+                400,
+                System.currentTimeMillis(),
+                field,
+                errorMessage);
+    }
 }
