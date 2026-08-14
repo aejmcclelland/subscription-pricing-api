@@ -2,8 +2,10 @@
 
 A small Spring Boot backend for calculating subscription pricing.
 
-This project demonstrates clean first-version backend fundamentals while improving my Spring Boot skills. It focuses on a lean controller with request/response DTOs, global error handling, a clear controller and service structure, pricing rules, validation, and automated testing.
-
+This project demonstrates clean first-version backend fundamentals while
+improving my Spring Boot skills. It focuses on a lean controller with
+request/response DTOs, global error handling, a clear controller and service
+structure, pricing rules, validation, and automated testing.
 
 ## Learning Goals
 
@@ -17,6 +19,7 @@ This project demonstrates clean first-version backend fundamentals while improvi
 - Test controller behaviour with MockMvc and a mocked service.
 
 ## Tech Stack
+
 - Java 21
 - Spring Boot 4.0.6
 - Spring Web MVC
@@ -44,84 +47,109 @@ subscription-pricing-api/
 │           └── service
 └── mvnw
 ```
+
 ### Running Tests
+
 ```
 ./mvnw clean test
 ```
+
 ### Running Locally
+
 ```
 ./mvnw spring-boot:run
 ```
+
 By default, the API runs on:
 
 http://localhost:8080
 
 ### API Endpoints
 
-| Method |Path                         |Purpose                     |
-| -------|-----------------------------|----------------------------|
-| POST   |```/api/subscriptions/calculate``` |Calculate subscription pricing|
+| Method | Path                           | Purpose                        |
+| ------ | ------------------------------ | ------------------------------ |
+| POST   | `/api/subscriptions/calculate` | Calculate subscription pricing |
 
+### API system diagram
 
-### Supported Currency 
+<p align="center">
+  <img
+    src="docs/subscription-pricing-flow.png"
+    alt="Subscription Pricing API request flow"
+    width="1000"
+  >
+</p>
+
+### Supported Currency
+
 ```
 GBP
 ```
+
 ### Example Create Request
+
 ```json
 {
-    "userCount": 12,
-    "plan": "PRO",
-    "billingCycle": "MONTHLY",
-    "currency": "GBP"
+	"userCount": 12,
+	"plan": "PRO",
+	"billingCycle": "MONTHLY",
+	"currency": "GBP"
 }
 ```
+
 ### Example Response
+
 ```json
 {
-    "plan": "PRO",
-    "userCount": 12,
-    "billingCycle": "MONTHLY",
-    "monthlyCost": 240,
-    "annualCost": 2880,
-    "currency": "GBP"
+	"plan": "PRO",
+	"userCount": 12,
+	"billingCycle": "MONTHLY",
+	"monthlyCost": 240,
+	"annualCost": 2880,
+	"currency": "GBP"
 }
 ```
+
 ## Business Rules
 
-- ```BASIC``` costs £10 per user per month.
-- ```PRO``` costs £20 per user per month.
-- ```ENTERPRISE``` costs £40 per user per month.
+- `BASIC` costs £10 per user per month.
+- `PRO` costs £20 per user per month.
+- `ENTERPRISE` costs £40 per user per month.
 - Annual cost is calculated as monthly cost × 12.
 - User count must be at least 1.
 - Plan, billing cycle, and currency are required.
-- ```GBP``` is currently the only supported currency.
+- `GBP` is currently the only supported currency.
 
 ## Error Handling
 
-- Error handling uses ```GlobalExceptionHandler``` to catch exceptions and create an instance of the ```ApiErrorResponse``` record with the appropriate values. The record defines a consistent structure for API errors. Jackson then serialises the Java object into JSON to create the HTTP response returned to the client.
+- Error handling uses `GlobalExceptionHandler` to catch exceptions and create an
+  instance of the `ApiErrorResponse` record with the appropriate values. The
+  record defines a consistent structure for API errors. Jackson then serialises
+  the Java object into JSON to create the HTTP response returned to the client.
 
-- For example, an unsupported currency such as ```USD``` results in the following structured error response: 
+- For example, an unsupported currency such as `USD` results in the following
+  structured error response:
 
-### Example Invalid Request 
+### Example Invalid Request
 
 ```json
 {
-    "userCount": 12,
-    "plan": "PRO",
-    "billingCycle": "MONTHLY",
-    "currency": "USD"
+	"userCount": 12,
+	"plan": "PRO",
+	"billingCycle": "MONTHLY",
+	"currency": "USD"
 }
 ```
 
-### Example Error Response 
+### Example Error Response
+
 ```json
 {
-    "message": "Invalid request body",
-    "status": 400,
-    "timestamp": 1786726284091,
-    "field": "currency",
-    "error": "Invalid currency value. Supported currency is GBP."
+	"message": "Invalid request body",
+	"status": 400,
+	"timestamp": 1786726284091,
+	"field": "currency",
+	"error": "Invalid currency value. Supported currency is GBP."
 }
 ```
 
@@ -131,11 +159,14 @@ The project contains tests at both the service and controller layers.
 
 ### Service Tests
 
-Service unit tests verify the pricing calculations for the supported subscription plans and billing cycles, including the currency returned by the service.
+Service unit tests verify the pricing calculations for the supported
+subscription plans and billing cycles, including the currency returned by the
+service.
 
 ### Controller Tests
 
-Controller tests use `MockMvc` with a mocked `SubscriptionPricingService` to verify:
+Controller tests use `MockMvc` with a mocked `SubscriptionPricingService` to
+verify:
 
 - successful requests return HTTP 200 and the expected JSON response;
 - invalid user counts return HTTP 400;
@@ -145,6 +176,5 @@ Controller tests use `MockMvc` with a mocked `SubscriptionPricingService` to ver
 
 ### Application Context Test
 
-A Spring Boot context test verifies that the application context starts successfully.
-
-
+A Spring Boot context test verifies that the application context starts
+successfully.
