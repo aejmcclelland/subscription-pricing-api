@@ -21,7 +21,7 @@ structure, pricing rules, validation, and automated testing.
 ## Tech Stack
 
 - Java 21
-- Spring Boot 4.0.6
+- Spring Boot (v4.1.0)
 - Spring Web MVC
 - Bean Validation
 - Maven Wrapper
